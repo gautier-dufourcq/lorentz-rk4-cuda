@@ -17,8 +17,13 @@ Le programme a pour but de simuler un **flux de particules chargées** soumises 
 
 *   **Dynamique continue :** La trajectoire de chaque particule est gouvernée par un système d'équations différentielles ordinaires (EDO) décrivant son accélération en fonction des forces appliquées.
 *   **Intégration numérique par Runge-Kutta 4 ($RK4$) :** Pour résoudre ces équations, le kernel calcule à chaque pas de temps $dt$ l'état futur des particules. L'algorithme $RK4$ évalue quatre pentes successives pour intégrer avec une haute précision :
-*   Le vecteur **position** $\vec{r}(t + dt)$
-*   Le vecteur **vitesse** $\vec{v}(t + dt)$
+*   Le vecteur **position**
+  
+  $$\vec{r}(t + dt)$$
+  
+*   Le vecteur **vitesse**
+  
+$$\vec{v}(t + dt)$$
 
 ### I.3. Workflow & Environnement de Prototypage
 
@@ -160,14 +165,21 @@ Pour éviter d'effectuer $N^2$ accès à la mémoire globale GPU (haute latence)
 
 ### IV.3 Schéma d'Intégration RK4 (`step_rk4`)
 
-L'état 6D de la particule $\vec{S} = (x, y, z, v_x, v_y, v_z)^T$ est mis à jour à chaque pas de temps $\Delta t = 10^{-9}\,\text{s}$ via les 4 coefficients classiques de Runge-Kutta :
-$$k_1 = f(t, \vec{S})$$
-$$k_2 = f\left(t + \frac{\Delta t}{2}, \vec{S} + \frac{\Delta t}{2} k_1\right)$$
-$$k_3 = f\left(t + \frac{\Delta t}{2}, \vec{S} + \frac{\Delta t}{2} k_2\right)$$
-$$k_4 = f(t + \Delta t, \vec{S} + \Delta t \, k_3)$$
-$$\vec{S}_{n+1} = \vec{S}_n + \frac{\Delta t}{6} \left( k_1 + 2k_2 + 2k_3 + k_4 \right)$$
+L'état 6D de la particule 
 
-<br>
+$$\vec{S} = (x, y, z, v_x, v_y, v_z)^T$$
+
+est mis à jour à chaque pas de temps $\Delta t = 10^{-9}\,\text{s}$ via les 4 coefficients classiques de Runge-Kutta :
+
+$$k_1 = f(t, \vec{S})$$
+
+$$k_2 = f\left(t + \frac{\Delta t}{2}, \vec{S} + \frac{\Delta t}{2} k_1\right)$$
+
+$$k_3 = f\left(t + \frac{\Delta t}{2}, \vec{S} + \frac{\Delta t}{2} k_2\right)$$
+
+$$k_4 = f(t + \Delta t, \vec{S} + \Delta t \, k_3)$$
+
+$$\vec{S}_{n+1} = \vec{S}_n + \frac{\Delta t}{6} \left( k_1 + 2k_2 + 2k_3 + k_4 \right)$$
 
 ## IV.4 Flux d'Exécution & Gestion de la Mémoire
 
